@@ -9,7 +9,10 @@ export async function POST(request: NextRequest) {
     
     const requestBody = {
       url: body.url,
-      headers: body.headers || []
+      headers: [
+        "User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36",
+        "Accept: application/vnd.github+json"
+      ]
     };
     
     console.log('Sending to vlayer API:', JSON.stringify(requestBody, null, 2));
@@ -22,8 +25,6 @@ export async function POST(request: NextRequest) {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(requestBody),
-      // Add timeout to prevent hanging requests
-      signal: AbortSignal.timeout(55000) // 55 seconds (less than maxDuration)
     });
 
     if (!response.ok) {

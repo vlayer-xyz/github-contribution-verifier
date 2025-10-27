@@ -23,6 +23,13 @@ export async function POST(request: NextRequest) {
 
     const data = await response.json();
     
+    // Debug logging
+    console.log('=== VLAYER VERIFICATION API RESPONSE ===');
+    console.log('Response status:', response.status);
+    console.log('Response headers:', Object.fromEntries(response.headers.entries()));
+    console.log('Response data:', JSON.stringify(data, null, 2));
+    console.log('=== END VLAYER RESPONSE ===');
+    
     return NextResponse.json(data);
   } catch (error) {
     console.error('Verify API error:', error);
