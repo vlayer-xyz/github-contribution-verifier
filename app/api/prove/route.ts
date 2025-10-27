@@ -1,5 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 
+// Configure max duration for Vercel (up to 60 seconds)
+export const maxDuration = 60;
+
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
@@ -18,7 +21,9 @@ export async function POST(request: NextRequest) {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(requestBody)
+      body: JSON.stringify(requestBody),
+      // Add timeout to prevent hanging requests
+      signal: AbortSignal.timeout(55000) // 55 seconds (less than maxDuration)
     });
 
     if (!response.ok) {
@@ -36,6 +41,15 @@ export async function POST(request: NextRequest) {
     return NextResponse.json(data);
   } catch (error) {
     console.error('Prove API error:', error);
+    
+    // Handle timeout errors specifically
+    if (error instanceof Error && error.name === 'TimeoutError') {
+      return NextResponse.json(
+        { error: 'Request timed out. GitHub API took too long to respond. Please try again.' },
+        { status: 408 }
+      );
+    }
+    
     return NextResponse.json(
       { error: error instanceof Error ? error.message : 'Failed to prove URL' },
       { status: 500 }
