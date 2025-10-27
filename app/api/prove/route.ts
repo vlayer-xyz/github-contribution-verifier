@@ -9,7 +9,7 @@ export async function POST(request: NextRequest) {
     
     const requestBody = {
       url: body.url,
-      headers: [
+      headers: body.headers || [
         "User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36",
         "Accept: application/vnd.github+json"
       ]

@@ -4,6 +4,7 @@ import { useState } from 'react';
 
 export default function Home() {
   const [url, setUrl] = useState('');
+  const [githubToken, setGithubToken] = useState('');
   const [username, setUsername] = useState('');
   const [isProving, setIsProving] = useState(false);
   const [isVerifying, setIsVerifying] = useState(false);
@@ -29,7 +30,11 @@ export default function Home() {
         },
         body: JSON.stringify({
           url: url.trim(),
-          headers: []
+          headers: [
+            "User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36",
+            "Accept: application/vnd.github+json",
+            ...(githubToken.trim() ? [`Authorization: Bearer ${githubToken.trim()}`] : [])
+          ]
         })
       });
 
@@ -135,6 +140,28 @@ export default function Home() {
               className="w-full px-4 py-3 bg-gray-900 border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#7235e5] focus:border-transparent text-white placeholder-gray-500"
               disabled={isProving || isVerifying}
             />
+          </div>
+
+          {/* GitHub Token Input */}
+          <div className="space-y-4">
+            <label htmlFor="token" className="block text-sm font-medium text-gray-300">
+              GitHub Personal Access Token (for private repos)
+            </label>
+            <input
+              id="token"
+              type="password"
+              value={githubToken}
+              onChange={(e) => setGithubToken(e.target.value)}
+              placeholder="github_pat_..."
+              className="w-full px-4 py-3 bg-gray-900 border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#7235e5] focus:border-transparent text-white placeholder-gray-500"
+              disabled={isProving || isVerifying}
+            />
+            <p className="text-xs text-gray-500">
+              Required for private repositories. Generate one at{' '}
+              <a href="https://github.com/settings/personal-access-tokens" target="_blank" rel="noopener noreferrer" className="text-[#7235e5] hover:underline">
+                GitHub Settings → Developer settings → Personal access tokens
+              </a>
+            </p>
           </div>
 
           {/* Username Input */}
