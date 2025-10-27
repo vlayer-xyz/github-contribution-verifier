@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-// Configure max duration for Vercel (up to 60 seconds)
-export const maxDuration = 60;
+// Configure max duration for Vercel (up to 90 seconds)
+export const maxDuration = 90;
 
 export async function POST(request: NextRequest) {
   try {
