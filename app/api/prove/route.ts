@@ -23,7 +23,7 @@ export async function POST(request: NextRequest) {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'x-client-id': '4f028e97-b7c7-4a81-ade2-6b1a2917380c"',
+        'x-client-id': '4f028e97-b7c7-4a81-ade2-6b1a2917380c',
         'Authorization': 'Bearer jUWXi1pVUoTHgc7MOgh5X0zMR12MHtAhtjVgMc2DM3B3Uc8WEGQAEix83VwZ',
       },
       body: JSON.stringify(requestBody),
