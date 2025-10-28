@@ -11,6 +11,7 @@ export async function POST(request: NextRequest) {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        'x-client-id': 'vouch_dev',
       },
       body: JSON.stringify(body),
       // Add timeout to prevent hanging requests
