@@ -1,36 +1,58 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# GitHub Contribution Verifier
 
-## Getting Started
+A Next.js application that uses web proofs / zkTLS to verify GitHub contributions through vlayer's Web Prover API.
 
-First, run the development server:
+## Overview
+
+This tool allows users to cryptographically prove and verify their contributions to GitHub repositories. It creates tamper-proof attestations of contributor data from GitHub's API.
+
+## Prerequisites
+
+- Node.js 20+
+- npm or pnpm
+- vlayer Web Prover API credentials
+
+## Installation
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Configuration
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Create a `.env.local` file with your vlayer API credentials:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```
+WEB_PROVER_API_CLIENT_ID=your_client_id
+WEB_PROVER_API_SECRET=your_api_secret
+```
 
-## Learn More
+## Usage
 
-To learn more about Next.js, take a look at the following resources:
+1. Start the development server:
+```bash
+npm run dev
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+2. Open http://localhost:3000
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+3. Enter a GitHub API contributors URL (e.g., `https://api.github.com/repos/owner/repo/contributors`)
 
-## Deploy on Vercel
+4. For private repositories, provide a GitHub Personal Access Token
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+5. Enter your GitHub username
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+6. Click "Prove Contributions" to generate a cryptographic proof
+
+7. Click "Verify Proof" to verify your contributions
+
+## API Endpoints
+
+- `POST /api/prove` - Generate cryptographic proof of GitHub API data
+- `POST /api/verify` - Verify the generated proof and extract contribution data
+
+## Documentation
+
+For more information about vlayer and the Web Prover API, visit the official documentation:
+
+https://docs.vlayer.xyz/

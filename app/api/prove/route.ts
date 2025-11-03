@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 
 // Configure max duration for Vercel (up to 90 seconds)
-export const maxDuration = 90;
+export const maxDuration = 160;
 
 export async function POST(request: NextRequest) {
   try {
@@ -23,8 +23,8 @@ export async function POST(request: NextRequest) {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'x-client-id': '4f028e97-b7c7-4a81-ade2-6b1a2917380c',
-        'Authorization': 'Bearer jUWXi1pVUoTHgc7MOgh5X0zMR12MHtAhtjVgMc2DM3B3Uc8WEGQAEix83VwZ',
+        'x-client-id': process.env.WEB_PROVER_API_CLIENT_ID || '',
+        'Authorization': 'Bearer ' + process.env.WEB_PROVER_API_SECRET,
       },
       body: JSON.stringify(requestBody),
     });
@@ -36,10 +36,6 @@ export async function POST(request: NextRequest) {
     }
 
     const data = await response.json();
-    
-    console.log('Vlayer API response:', JSON.stringify(data, null, 2));
-    console.log('Response status from vlayer:', data.response?.status);
-    console.log('Response body length:', data.response?.body?.length || 'null');
     
     return NextResponse.json(data);
   } catch (error) {
