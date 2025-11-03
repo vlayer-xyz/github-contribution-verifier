@@ -10,8 +10,8 @@ export async function POST(request: NextRequest) {
     const response = await fetch('https://web-prover.vlayer.xyz/api/v1/verify', {
       method: 'POST',
       headers: {
-        'x-client-id': '4f028e97-b7c7-4a81-ade2-6b1a2917380c',
-        'Authorization': 'Bearer jUWXi1pVUoTHgc7MOgh5X0zMR12MHtAhtjVgMc2DM3B3Uc8WEGQAEix83VwZ',
+        'x-client-id': process.env.WEB_PROVER_API_CLIENT_ID || '',
+        'Authorization': 'Bearer ' + process.env.WEB_PROVER_API_SECRET,
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(body),
