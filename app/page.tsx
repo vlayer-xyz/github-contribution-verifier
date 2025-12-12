@@ -1,6 +1,33 @@
 'use client';
 
 import { useState } from 'react';
+import Image from 'next/image';
+
+interface GitHubContributor {
+  login: string;
+  contributions: number;
+  avatar_url: string;
+}
+
+interface ContributionData {
+  username: string;
+  total: number;
+  avatar: string;
+}
+
+interface VerifyResponse {
+  response?: {
+    body?: string;
+  };
+  contributionData?: ContributionData;
+  [key: string]: unknown;
+}
+
+type Presentation = Record<string, unknown>;
+
+type Result = 
+  | { type: 'prove'; data: Presentation }
+  | { type: 'verify'; data: VerifyResponse };
 
 export default function Home() {
   const [url, setUrl] = useState('');
@@ -8,8 +35,8 @@ export default function Home() {
   const [username, setUsername] = useState('');
   const [isProving, setIsProving] = useState(false);
   const [isVerifying, setIsVerifying] = useState(false);
-  const [presentation, setPresentation] = useState<any>(null);
-  const [result, setResult] = useState<any>(null);
+  const [presentation, setPresentation] = useState<Presentation | null>(null);
+  const [result, setResult] = useState<Result | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   const handleProve = async () => {
@@ -85,8 +112,8 @@ export default function Home() {
       let contributionData = null;
       if (data.response && data.response.body) {
         try {
-          const contributors = JSON.parse(data.response.body);
-          const userContributions = contributors.find((contributor: any) => 
+          const contributors = JSON.parse(data.response.body) as GitHubContributor[];
+          const userContributions = contributors.find((contributor) => 
             contributor.login && contributor.login.toLowerCase() === username.trim().toLowerCase()
           );
           
@@ -100,7 +127,7 @@ export default function Home() {
             setError(`No contributions found for username: ${username.trim()}`);
             return;
           }
-        } catch (parseError) {
+        } catch {
           setError('Failed to parse contribution data');
           return;
         }
@@ -216,9 +243,11 @@ export default function Home() {
                   <div className="p-6 bg-gray-900 border border-gray-700 rounded-lg">
                     <h3 className="text-lg font-medium text-gray-300 mb-4">✅ Verification Successful</h3>
                     <div className="flex items-center space-x-4 mb-4">
-                      <img 
+                      <Image 
                         src={result.data.contributionData.avatar} 
                         alt={result.data.contributionData.username}
+                        width={48}
+                        height={48}
                         className="w-12 h-12 rounded-full"
                       />
                       <div>
@@ -262,9 +291,11 @@ export default function Home() {
         <div className="mt-16 pt-8 border-t border-gray-800">
           <div className="flex justify-center items-center space-x-2 text-gray-500">
             <span className="text-sm">Powered by</span>
-            <img 
+            <Image 
               src="/powered-by-vlayer.svg" 
               alt="Vlayer" 
+              width={80}
+              height={20}
               className="h-5"
             />
           </div>
